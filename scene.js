@@ -30,10 +30,10 @@ class scene extends Phaser.Scene {
         
         this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
 
-        console.log(this.map_options([
-            [0,1]
-            [3]
-        ],2,2))
+        // console.log(this.map_options([
+        //     [0,1]
+        //     [3]
+        // ],2,2))
 
     }
 
