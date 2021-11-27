@@ -8,15 +8,15 @@ class scene extends Phaser.Scene {
     preload () {
         this.load.image("test","/assets/bregenzerwald.jpg")
         this.load.image("player","/assets/kuchen.png");
-        console.log(TileData)
         this.TileData = TileData
+        console.log(this.TileData)
     }
 
     create () {
         this.image = this.add.image(0,0,"test");
         const cam = this.cameras.main
         //cam.setBounds(0, 0, 3392, 100);
-        cam.setZoom(2);
+        cam.setZoom(15);
 
         this.player = this.add.image(0,0,"player")
 
@@ -71,22 +71,24 @@ class scene extends Phaser.Scene {
 
     }
 
-    map_options(reference,y,x,){
+    map_options(reference,y,x){
         let result= []
-        let yes
-        let tile
+        let rule
+        let geht
+        let Refrule
 
-        for (let tilen in new Range(1,TileData.length-1)){
-            tile=TileData[tilen]
-            yes=0
+        for (const tileid in this.TileData){
+            const tile = this.TileData[tileid]
+            console.log(tile)
+            let yes=0
             
-            for (let RefTile in [A,B]){
+            for (let RefTile in tile.rules){
                 
-                rule = this.TileData[tile].rules[RefTile]
-                if (RefTile = A){
-                    Refrule = this.TileData[reference[y-1][x]].self
+                rule = tile.rules[RefTile]
+                if (RefTile = "A"){
+                    Refrule = this.TileData[reference[y-2][x-1]].self
                 } else {
-                    Refrule = this.TileData[reference[y][x-1]].self
+                    Refrule = this.TileData[reference[y-1][x-2]].self
                 }
 
 
@@ -104,7 +106,7 @@ class scene extends Phaser.Scene {
             }
         
             
-            if (yes>=2){result.add(tilen)}
+             if (yes>=2){result.add(tileid)}
 
         }
 

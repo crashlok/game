@@ -1,6 +1,6 @@
 const TileData = 
-[
-    {
+{
+    1:{
         self:[
             2,2,
             2,1
@@ -18,7 +18,7 @@ const TileData =
     },
     
 
-    {
+    2:{
         self:[
             2,2,
             1,1
@@ -35,7 +35,7 @@ const TileData =
         }
     },
 
-    {
+    3:{
         self:[
             2,2,
             1,2
@@ -52,7 +52,7 @@ const TileData =
         }
     },
 
-    {
+    4:{
         self:[
             2,1,
             2,1
@@ -69,7 +69,7 @@ const TileData =
         }
     },
 
-    {
+    5:{
         self:[
             1,1,
             1,1
@@ -86,7 +86,7 @@ const TileData =
         }
     },
 
-    {
+    6:{
         self:[
             1,2,
             1,2
@@ -103,7 +103,7 @@ const TileData =
         }
     },
 
-    {
+    7:{
         self:[
             2,1,
             2,2
@@ -120,7 +120,7 @@ const TileData =
         }
     },
 
-    {
+    8:{
         self:[
             1,1,
             2,2
@@ -137,7 +137,7 @@ const TileData =
         }
     },
 
-    {
+    9:{
         self:[
             1,2,
             2,2
@@ -154,7 +154,7 @@ const TileData =
         }
     },
 
-    {
+    10:{
         self:[
             2,2,
             2,2
@@ -172,4 +172,4 @@ const TileData =
     }
 
 
-]
+}
