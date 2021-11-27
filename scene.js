@@ -6,8 +6,8 @@ class scene extends Phaser.Scene {
     }
 
     preload () {
-        this.load.image("test","assets/bregenzerwald.jpg")
-        this.load.image("player","assets/kuchen.png");
+        this.load.image("test","phaser/assets/bregenzerwald.jpg")
+        this.load.image("player","phaser/assets/kuchen.png");
         this.TileData = TileData
         console.log(this.TileData)
     }
