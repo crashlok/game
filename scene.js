@@ -30,10 +30,10 @@ class scene extends Phaser.Scene {
         
         this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
 
-        // console.log(this.map_options([
-        //     [0,1]
-        //     [3]
-        // ],2,2))
+        console.log(this.map_options([
+            [0,1],
+            [3]
+        ],2,2))
 
     }
 
@@ -72,6 +72,7 @@ class scene extends Phaser.Scene {
     }
 
     map_options(reference,y,x){
+        console.log(reference)
         let result= []
         let rule
         let geht
@@ -95,7 +96,7 @@ class scene extends Phaser.Scene {
 
                 geht = true
 
-                for (let a in Range(0,4)){
+                for (let a in new Range(0,4)){
                     if (rule[a] != 0 && rule[a] != Refrule[a]){
                         geht = false
                     }
@@ -106,7 +107,7 @@ class scene extends Phaser.Scene {
             }
         
             
-             if (yes>=2){result.add(tileid)}
+             if (yes>=2){result.push(tileid)}
 
         }
 
