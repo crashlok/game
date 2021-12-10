@@ -6,19 +6,19 @@ class scene extends Phaser.Scene {
     }
 
     preload () {
-        this.load.image("TileSetImage","/phaser/assets/lalal.png")
-        this.load.image("player","/phaser/assets/kuchen.png");
+        this.load.image("TileSetImage","assets/lalal.png")
+        this.load.image("player","assets/kuchen.png");
         this.TileData = TileData
         console.log(this.TileData)
     }
 
     create () {
 
-        const map = this.make.tilemap({width:400,heigth:400,tilewidth:16,tileheigth:16});
+        this.map = this.make.tilemap({width:400,heigth:400,tilewidth:16,tileheigth:16});
 
-        const tiles = map.addTilesetImage('TileSetImage', null, 16, 16);
-        const layer = map.createBlankLayer("layer1", tiles);
-        layer.randomize(0, 0, map.width,map.heigth, [0,1,2,4,5,6,7,8,9,10]);
+        this.tiles = this.map.addTilesetImage('TileSetImage', null, 16, 16);
+        this.layer1 = this.map.createBlankLayer("layer1", this.tiles);
+        this.layer1.randomize(0, 0, this.map.width,this.map.heigth, [0,1,2,4,5,6,7,8,9,10]);
 
 
         const cam = this.cameras.main
@@ -34,8 +34,8 @@ class scene extends Phaser.Scene {
         this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
 
         console.log(this.map_options([
-            [0,5],
-            [5]
+            ["0","2"],
+            ["4"]
         ],2,2))
 
     }
@@ -77,42 +77,38 @@ class scene extends Phaser.Scene {
         console.log(reference)
         let result= []
         let geht
-        let Refrule
 
-        for (const tileid in this.TileData){
+        for (let tileid in this.TileData){
             const tile = this.TileData[tileid]
             console.log(tile)
             let yes=0
             
             for (let RefTile in tile.rules){
-                
                 const rule = tile.rules[RefTile]
                 console.log(rule)
                 
-                if (RefTile = "A"){
-                    Refrule = this.TileData[reference[y-2][x-1]].self
-                } else {
-                    Refrule = this.TileData[reference[y-1][x-2]].self
-                }
+                const neighbourTile =
+                    (RefTile === "A") ? reference[y-2][x-1] : reference[y-1][x-2]
+                const Refrule = this.TileData[neighbourTile].self
 
                 console.log(Refrule)
-                
-
 
                 geht = true
-
-                for (let a in new Range(0,4)){
+                for (let a = 0;a<rule.length;a++){
                     if (rule[a] != 0 && rule[a] != Refrule[a]){
+                        console.log("oh no")
                         geht = false
                         console.log("oh no")
+
                     }
+                    console.log("l")
                 }
 
-                if (geht){yes +=1}
+                if (geht){yes++}
 
             }
         
-            
+
              if (yes>=2){result.push(tileid)}
 
         }
