@@ -1,118 +1,127 @@
 class scene extends Phaser.Scene {
-  constructor() {
-    super({ key: "scene" })
-  }
-
-  preload() {
-    this.load.image("TileSetImage", "assets/lalal.png")
-    this.load.image("player", "assets/kuchen.png")
-    this.TileData = TileData
-    console.log(this.TileData)
-  }
-
-  create() {
-    this.map = this.make.tilemap({
-      width: 400,
-      heigth: 400,
-      tilewidth: 16,
-      tileheigth: 16,
-    })
-
-    this.tiles = this.map.addTilesetImage("TileSetImage", null, 16, 16)
-    this.layer1 = this.map.createBlankLayer("layer1", this.tiles)
-    this.layer1.randomize(
-      0,
-      0,
-      this.map.width,
-      this.map.heigth,
-      [0, 1, 2, 4, 5, 6, 7, 8, 9, 10]
-    )
-
-    const cam = this.cameras.main
-    cam.setZoom(2)
-
-    this.player = this.add.image(0, 0, "player")
-
-    cam.startFollow(this.player, true, 0.5, 0.5)
-
-    this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.key_W = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-    this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
-
-    console.log(this.map_options([["0", "2"], ["4"]], 2, 2))
-  }
-
-  update() {
-    if (this.key_A.isDown) {
-      this.player.x -= 1
-    }
-    if (this.key_D.isDown) {
-      this.player.x += 5
+    constructor() {
+        super({ key: "scene" })
     }
 
-    if (this.key_W.isDown) {
-      this.player.y -= 1
+    preload() {
+        this.load.image("tileSetImage", "assets/lalal2.png")
+        this.load.image("player", "assets/kuchen.png")
+        this.TileData = TileData
     }
 
-    if (this.key_S.isDown) {
-      this.player.y += 1
+    create() {
+        this.map = this.make.tilemap({
+            data: this.buildRandomMap(500, 500),
+            tileWidth: 16,
+            tileHeight: 16,
+        })
+        this.tiles = this.map.addTilesetImage("tileSetImage")
+        this.layer = this.map.createLayer(0, this.tiles, 0, 0)
+        const cam = this.cameras.main
+        cam.setZoom(2)
+
+        this.player = this.add.image(8000, 8000, "player")
+
+        cam.startFollow(this.player, true, 0.1, 0.1)
+
+        this.key_A = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.A
+        )
+        this.key_D = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.D
+        )
+        this.key_W = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.W
+        )
+        this.key_S = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.S
+        )
     }
-  }
 
-  build_random_map(MapSX, MapSY) {
-    let result = []
+    update() {
+        if (this.key_A.isDown) {
+            this.player.x -= 4
+        }
+        if (this.key_D.isDown) {
+            this.player.x += 4
+        }
 
-    for (y in Range(1, MapSY)) {
-      result.add([])
+        if (this.key_W.isDown) {
+            this.player.y -= 4
+        }
 
-      for (x in Range(1, MapSX)) {
-        map_options(result, y, x)
-        result[y - 1][x - 1]
-      }
+        if (this.key_S.isDown) {
+            this.player.y += 4
+        }
     }
-  }
 
-  map_options(reference, y, x) {
-    console.log(reference)
-    let result = []
-    let geht
+    buildRandomMap(MapSX, MapSY) {
+        let map = [[]]
+        while (map[0].length < MapSX) {
+            map[0].push(-1)
+        }
+        for (let y = 1; y <= MapSY - 1; y++) {
+            map.push([-1])
 
-    for (let tileid in this.TileData) {
-      const tile = this.TileData[tileid]
-      console.log(tile)
-      let yes = 0
+            for (let x = 1; x <= MapSX - 1; x++) {
+                const result = this.map_options(map, y, x)
+                // console.log(result)
+                // console.log(map)
+                if (result.indexOf("4") != -1 && Math.random() < 0.98) {
+                    map[y][x] = "4"
+                }else  if (result.indexOf("9") != -1 && Math.random() < 0.98) {
+                    map[y][x] = "9"
 
-      for (let RefTile in tile.rules) {
-        const rule = tile.rules[RefTile]
-        console.log(rule)
+                } else {
+                    map[y][x] =
+                        result[Math.floor(Math.random() * result.length)]
+                }
+            }
+        }
+        console.log(map)
+        return map
+    }
 
-        const neighbourTile =
-          RefTile === "A" ? reference[y - 2][x - 1] : reference[y - 1][x - 2]
-        const Refrule = this.TileData[neighbourTile].self
+    mapArrayToNormalArray(array) {
+        let result = []
+        for (let line of array) {
+            for (let obj of line) {
+                result.push(obj)
+            }
+        }
+        return result
+    }
 
-        console.log(Refrule)
+    creativ(abBe, tileId, refTileId) {
+        if (refTileId == -1) {
+            return true
+        }
+        // console.log(refTileId)
+        const rule = this.TileData[tileId].rules[abBe]
+        const Refrule = this.TileData[refTileId].self
 
-        geht = true
         for (let a = 0; a < rule.length; a++) {
-          if (rule[a] != 0 && rule[a] != Refrule[a]) {
-            console.log("oh no")
-            geht = false
-            console.log("oh no")
-          }
-          console.log("l")
+            if (rule[a] != 0 && rule[a] != Refrule[a]) {
+                return false
+            }
         }
 
-        if (geht) {
-          yes++
-        }
-      }
-
-      if (yes >= 2) {
-        result.push(tileid)
-      }
+        return true
     }
 
-    return result
-  }
+    map_options(reference, y, x) {
+        let result = []
+        const abId = reference[y - 1][x]
+        const beId = reference[y][x - 1]
+        for (let tileId in this.TileData) {
+            if (
+                this.creativ("A", tileId, abId) &&
+                this.creativ("B", tileId, beId)
+            ) {
+                result.push(tileId)
+            }
+        }
+
+        return result
+    }
 }

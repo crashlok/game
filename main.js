@@ -1,25 +1,17 @@
-
-
 const config = {
-    type:Phaser.AUTO,
+    type: Phaser.AUTO,
     pixelArt: true,
-    scale:{
-       mode: Phaser.Scale.FIT,
-       autoCenter: Phaser.Scale.CENTER_BOTH,
-       width: 1200,
-       height: 600 
+    scale: {
+        mode: Phaser.Scale.ENVELOP,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1200,
+        height: 600,
     },
-    physics:{
-        default:"arcade",
-        arcade:{gravity: {y:200}}
-        
+    physics: {
+        default: "arcade",
+        arcade: { gravity: { y: 200 } },
     },
-    scene:[ 
-        scene
-    ]
+    scene: [scene],
+}
 
-
-};
-
-
-let gametest = new Phaser.Game(config);
+let gametest = new Phaser.Game(config)
